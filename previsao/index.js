@@ -25,10 +25,29 @@ vai()
 //complete essa função (async/await)
 //comece fazendo uma requisição com a axios
 //no tratamento, mostre a descrição de cada previsão que tenha a sensação térmica maior ou igual a 25. Mostre, também, a própria sensação térmica
-const ex = () => {
 
-}
-ex()
+// Função para mostrar previsões com sensação térmica >= 25°C
+const ex = async () => {
+  try {
+    const url = `${PROTOCOL}://${BASE_URL}?appid=${APPID}&q=${Q}&cnt=${CNT}&lang=${TRUE_LANGUAGE}&units=${UNITS}`;
+    const resultado = await axios.get(url);
+
+    for (let previsao of resultado.data.list) {
+      const feelsLike = previsao.main.feels_like;
+
+      // Se a sensação térmica for maior ou igual a 25
+      if (feelsLike >= 25) {
+        console.log(`Descrição: ${previsao.weather[0].description}`);
+        console.log(`Sensação térmica: ${feelsLike}°C`);
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao fazer a requisição:', error);
+  }
+};
+
+// Chama a função ex()
+ex();
 
 
 // axios.get(url)
